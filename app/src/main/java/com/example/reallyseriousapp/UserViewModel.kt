@@ -1,7 +1,10 @@
 package com.example.reallyseriousapp
 
+import androidx.databinding.ObservableField
+
 class UserViewModel {
 
-    var name = "Mohsin"
+    val name = "Mohsin"
+    var observableName = ObservableField<String>("observableName")
 
 }
