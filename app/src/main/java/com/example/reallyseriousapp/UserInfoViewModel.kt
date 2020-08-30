@@ -2,9 +2,9 @@ package com.example.reallyseriousapp
 
 import androidx.databinding.ObservableField
 
-class UserViewModel {
+class UserInfoViewModel (countryName : String) {
 
-    val name = "Mohsin"
+    val name = countryName
     var observableName = ObservableField<String>("observableName")
 
 }
