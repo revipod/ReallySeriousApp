@@ -10,19 +10,23 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var userInfoViewModel : UserInfoViewModel
+    lateinit var countryInfoViewModel : CountryInfoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
         setContentView(R.layout.activity_main)
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.viewModel = userInfoViewModel
-        userInfoViewModel.kotlinObservableCountryByName("China")
+        binding.viewModel = countryInfoViewModel
+        testViewModel()
+    }
+
+    private fun testViewModel() {
+        countryInfoViewModel.getSingleTypeCountryByName("China")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        userInfoViewModel.clearDisposable()
+        countryInfoViewModel.clearDisposable()
     }
 }

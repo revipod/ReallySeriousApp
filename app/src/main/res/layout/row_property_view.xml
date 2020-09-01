@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="itemViewModel"
+            type="com.example.reallyseriousapp.CountryItemViewModel" />
+    </data>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:padding="16dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/countryName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:paddingLeft="16dp"
+        android:hint="China"
+        android:text="@{itemViewModel.countryName}"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/countryCaptital"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:hint="Beijing"
+        android:text="@{itemViewModel.countryCaptital}"
+        android:paddingLeft="16dp" />
+
+</LinearLayout>
+</layout>

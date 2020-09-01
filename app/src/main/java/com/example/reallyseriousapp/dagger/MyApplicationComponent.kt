@@ -2,7 +2,6 @@ package com.example.reallyseriousapp.dagger
 
 import com.example.reallyseriousapp.MyApplication
 import dagger.Component
-import dagger.android.AndroidInjection
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 
