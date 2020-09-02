@@ -1,5 +1,7 @@
 package com.example.reallyseriousapp
 
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.OnLifecycleEvent
 import com.example.reallyseriousapp.retrofit.CountryByNameResponse
 import com.example.reallyseriousapp.retrofit.CountryService
 import com.example.reallyseriousapp.retrofit.ReactiveCountryService
@@ -15,10 +17,21 @@ import javax.inject.Inject
 class CountryInfoViewModel @Inject constructor(
     private val countryService: CountryService,
     private val reactiveCountryService: ReactiveCountryService,
+    private val eventBus: EventBus,
     val countryAdapter: CountryListAdapter
-) {
+) : BaseViewModel() {
 
     val compositeDisposable = CompositeDisposable()
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun onCreate(){
+        getSingleTypeCountryByName("Pakistan")
+        launchMarvelActivity()
+    }
+
+    fun launchMarvelActivity() {
+        eventBus.send(ActivityStartEvent(this, MarvelActivity::class))
+    }
 
     //Making a network call without using Reactive Kotlin
     fun getCountryByName(countryName: String) {
