@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.reallyseriousapp.databinding.ActivityMainBinding
-import dagger.android.AndroidInjection
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class MainActivity : BaseActivity()  {
@@ -18,16 +18,18 @@ class MainActivity : BaseActivity()  {
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AndroidInjection.inject(this)
         setContentView(R.layout.activity_main)
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = countryInfoViewModel
-        lifecycle.addObserver(countryInfoViewModel)
-        eventBus.startActivity(countryInfoViewModel).subscribe { startActivity(it) }
+        addLifeCycleObserver(countryInfoViewModel)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         countryInfoViewModel.clearDisposable()
+    }
+
+    override fun getDisposable() = CompositeDisposable().apply {
+        add(eventBus.startActivity(countryInfoViewModel).subscribe { startActivity(it) })
     }
 }

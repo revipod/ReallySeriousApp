@@ -1,12 +1,12 @@
 package com.example.reallyseriousapp
 
+import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
 import com.example.reallyseriousapp.retrofit.CountryByNameResponse
 import com.example.reallyseriousapp.retrofit.CountryService
 import com.example.reallyseriousapp.retrofit.ReactiveCountryService
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Call
@@ -21,15 +21,12 @@ class CountryInfoViewModel @Inject constructor(
     val countryAdapter: CountryListAdapter
 ) : BaseViewModel() {
 
-    val compositeDisposable = CompositeDisposable()
-
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun onCreate(){
         getSingleTypeCountryByName("Pakistan")
-        launchMarvelActivity()
     }
 
-    fun launchMarvelActivity() {
+    fun launchMarvelActivity(view: View) {
         eventBus.send(ActivityStartEvent(this, MarvelActivity::class))
     }
 
@@ -52,7 +49,7 @@ class CountryInfoViewModel @Inject constructor(
     }
 
     fun getSingleTypeCountryByName(countryName: String) {
-        compositeDisposable.add(reactiveCountryService.getCountryByName(countryName)
+        addDisposable(reactiveCountryService.getCountryByName(countryName)
             .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(onSuccess = { createAndSetCountryItemList(it) },
                 onError = { it.printStackTrace() })
@@ -64,9 +61,5 @@ class CountryInfoViewModel @Inject constructor(
         itemViewModelList.add(CountryItemViewModel(it!!.first().name,it!!.first().capital))
         itemViewModelList.add(CountryItemViewModel(it!!.first().name,it!!.first().capital))
         countryAdapter.setAdapterData(itemViewModelList)
-    }
-
-    fun clearDisposable() {
-        compositeDisposable.clear()
     }
 }
