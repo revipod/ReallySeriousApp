@@ -1,15 +1,21 @@
 package com.example.reallyseriousapp.dagger
 
+import android.content.Context
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.example.reallyseriousapp.retrofit.CountryService
 import com.example.reallyseriousapp.retrofit.ReactiveCountryService
+import com.example.reallyseriousapp.roomdb.AppDatabase
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
+import javax.inject.Singleton
 
 @Module
-class ViewModelModules {
+class ObjectModule {
 
     @Provides
     fun providesRFCountryService(): CountryService {
@@ -32,5 +38,9 @@ class ViewModelModules {
         return retrofit.create(ReactiveCountryService::class.java)
     }
 
-
+    @Singleton
+    @Provides
+    fun providesRoomDBInstance(@Named("ApplicationContext") context: Context): AppDatabase {
+        return Room.databaseBuilder(context, AppDatabase::class.java, "appDatabase").build()
+    }
 }

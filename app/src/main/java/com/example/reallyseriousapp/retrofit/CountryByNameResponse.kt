@@ -8,5 +8,8 @@ data class CountryByNameResponse (
     val name: String,
 
     @SerializedName("capital")
-    val capital: String
+    val capital: String,
+
+    @SerializedName("population")
+    val population: Int
 )
