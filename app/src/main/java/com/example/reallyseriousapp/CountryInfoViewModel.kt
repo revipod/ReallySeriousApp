@@ -33,12 +33,16 @@ class CountryInfoViewModel @Inject constructor(
     }
 
     @SuppressLint("CheckResult")
-    fun getCountryData(view: View) {
+    fun getCountryData() {
         if(searchCountry.get()!!.isNotEmpty()){
            addDisposable(appDatabase.countryDao().getAllCountries()
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe{ response -> doesCountryExistInDB(response, searchCountry.get()!!)})
         }
+    }
+
+    fun launchMarvelActivity() {
+        eventBus.send(ActivityStartEvent(this, MarvelActivity::class))
     }
 
     private fun doesCountryExistInDB(res: List<Country>, searchCountry: String) {
